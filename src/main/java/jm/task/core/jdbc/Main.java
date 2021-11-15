@@ -19,7 +19,7 @@ public class Main {
             usi.saveUser(user.getName(), user.getLastName(), user.getAge());
             System.out.printf("User с именем – %s добавлен в базу данных\n", user.getName());
         }
-        
+
         for (User user : usi.getAllUsers()) {
             System.out.println(user.toString());
         }
