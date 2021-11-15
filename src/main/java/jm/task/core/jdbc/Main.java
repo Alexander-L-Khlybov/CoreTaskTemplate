@@ -19,6 +19,7 @@ public class Main {
         System.out.println(Util.getSessionFactoryHibernate());
         UserDaoHibernateImpl udao = new UserDaoHibernateImpl();
         udao.dropUsersTable();
+        udao.createUsersTable();
 
 //        UserServiceImpl usi = new UserServiceImpl();
 //        usi.createUsersTable();

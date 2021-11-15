@@ -9,6 +9,13 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
+
+    private static final String createTable = "CREATE TABLE IF NOT EXISTS users (" +
+            "id BIGINT PRIMARY KEY AUTO_INCREMENT, " +
+            "name VARCHAR(100), " +
+            "lastName VARCHAR(100), " +
+            "age TINYINT);";
+
     public UserDaoHibernateImpl() {
 
     }
@@ -16,7 +23,18 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-
+        Transaction transaction = null;
+        try (Session session = Util.getSessionFactoryHibernate().openSession()) {
+            transaction = session.beginTransaction();
+            Query query = session.createSQLQuery(createTable);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
     }
 
     @Override
@@ -32,7 +50,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-
         }
     }
 
