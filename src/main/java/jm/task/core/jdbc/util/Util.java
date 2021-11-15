@@ -12,7 +12,7 @@ public class Util {
             "src/main/java/jm/task/core/jdbc/resources/config.properties";
 
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnectionJDBC() throws SQLException {
         Properties properties = new Properties();
 
         try (FileInputStream fIS = new FileInputStream(PROP_PATH)) {

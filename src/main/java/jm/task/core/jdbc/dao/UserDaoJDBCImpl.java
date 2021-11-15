@@ -32,7 +32,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             connection.prepareStatement(createSchema).execute();
             connection.prepareStatement(useSchema).execute();
             connection.prepareStatement(createTable).execute();
@@ -42,7 +42,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             connection.prepareStatement(useSchema).execute();
             connection.prepareStatement(dropTable).execute();
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         PreparedStatement ps;
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             ps = connection.prepareStatement(insertData);
             ps.setString(1, name);
             ps.setString(2, lastName);
@@ -65,7 +65,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         PreparedStatement ps;
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             connection.prepareStatement(useSchema);
             ps = connection.prepareStatement(removeData);
             ps.setLong(1, id);
@@ -77,7 +77,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> usersList = new LinkedList<>();
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             connection.prepareStatement(useSchema);
             ResultSet rs = connection.prepareStatement(usList).executeQuery();
 
@@ -97,7 +97,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (Connection connection = Util.getConnection()) {
+        try (Connection connection = Util.getConnectionJDBC()) {
             connection.prepareStatement(useSchema);
             connection.prepareStatement("DELETE FROM jmpp1.users;").execute();
         } catch (SQLException e) {
