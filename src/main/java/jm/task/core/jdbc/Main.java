@@ -1,20 +1,29 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
-import jm.task.core.jdbc.util.Util;
-
-import java.sql.SQLException;
+import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main {
+    private static User[] users = new User[] {
+            new User("Иван", "Иванов", (byte) 18),
+            new User("Петр", "Петров", (byte) 34),
+            new User("Савелий", "Савельев", (byte) 15),
+            new User("Лариса", "Ивановна", (byte) 21)
+    };
+
     public static void main(String[] args) {
-        UserDaoJDBCImpl udo = new UserDaoJDBCImpl();
-        udo.dropUsersTable();
-        udo.createUsersTable();
-        udo.saveUser("ivan", "ivanov", (byte) 18);
-        udo.saveUser("ibsvan", "ivanov", (byte) 28);
-        udo.saveUser("ivtrh45an", "ivanov", (byte) 8);
-        udo.saveUser("iwgevan", "ivanov", (byte) 118);
-        udo.removeUserById(2);
-        udo.cleanUsersTable();
+        UserServiceImpl usi = new UserServiceImpl();
+        usi.createUsersTable();
+
+        for (User user : users) {
+            usi.saveUser(user.getName(), user.getLastName(), user.getAge());
+            System.out.printf("User с именем – %s добавлен в базу данных\n", user.getName());
+        }
+        
+        for (User user : usi.getAllUsers()) {
+            System.out.println(user.toString());
+        }
+        usi.cleanUsersTable();
+        usi.dropUsersTable();
     }
 }
