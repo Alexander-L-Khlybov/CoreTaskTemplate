@@ -1,9 +1,7 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
-import jm.task.core.jdbc.util.Util;
 
 public class Main {
 
@@ -16,23 +14,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(Util.getSessionFactoryHibernate());
-        UserDaoHibernateImpl udao = new UserDaoHibernateImpl();
-        udao.dropUsersTable();
-        udao.createUsersTable();
+        UserServiceImpl usi = new UserServiceImpl();
+        usi.createUsersTable();
 
-//        UserServiceImpl usi = new UserServiceImpl();
-//        usi.createUsersTable();
-//
-//        for (User user : users) {
-//            usi.saveUser(user.getName(), user.getLastName(), user.getAge());
-//            System.out.printf("User с именем – %s добавлен в базу данных\n", user.getName());
-//        }
-//
-//        for (User user : usi.getAllUsers()) {
-//            System.out.println(user.toString());
-//        }
-//        usi.cleanUsersTable();
-//        usi.dropUsersTable();
+        for (User user : users) {
+            usi.saveUser(user.getName(), user.getLastName(), user.getAge());
+            System.out.printf("User с именем – %s добавлен в базу данных\n", user.getName());
+        }
+
+        for (User user : usi.getAllUsers()) {
+            System.out.println(user.toString());
+        }
+        usi.cleanUsersTable();
+        usi.dropUsersTable();
     }
 }
